@@ -1,0 +1,25 @@
+{
+  "name": "fresh",
+  "version": "1.0.0",
+  "description": "Fresh is a discord bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InsufiKoder/fresh.git"
+  },
+  "author": "InsufiKoder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/InsufiKoder/fresh/issues"
+  },
+  "homepage": "https://github.com/InsufiKoder/fresh#readme",
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "dotenv": "^16.0.3",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
