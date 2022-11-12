@@ -21,7 +21,8 @@ module.exports = {
           name: `\`Original Message Language:\``,
           value: ISO6391.getName(res.from.language.iso),
         }
-      );
+      )
+      .setTimestamp();
 
     await interaction.reply({ embeds: [replyEmbed] });
   },

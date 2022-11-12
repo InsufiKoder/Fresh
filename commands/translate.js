@@ -40,7 +40,8 @@ module.exports = {
               res.from.language.iso
             )} | ${ISO6391.getNativeName(res.from.language.iso)}`,
           }
-        );
+        )
+        .setTimestamp();
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (err) {

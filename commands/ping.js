@@ -7,7 +7,8 @@ module.exports = {
   async execute(interaction) {
     const replyEmbed = new EmbedBuilder()
       .setColor("Random")
-      .setTitle(`${Date.now() - interaction.createdTimestamp}ms.`);
+      .setTitle(`${Date.now() - interaction.createdTimestamp}ms.`)
+      .setTimestamp();
 
     await interaction.reply({ embeds: [replyEmbed] });
   },
