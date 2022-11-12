@@ -7,7 +7,7 @@ module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName("Translate")
     .setType(ApplicationCommandType.Message), // Message
-  global: false,
+  global: true,
   async execute(interaction) {
     const msg = interaction.targetMessage.content;
     const res = await translate(msg, { to: "en" });

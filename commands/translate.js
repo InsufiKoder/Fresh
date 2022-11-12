@@ -20,7 +20,7 @@ module.exports = {
         .setDescription("Language to translate to")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     try {
       const text = interaction.options.getString("text");
