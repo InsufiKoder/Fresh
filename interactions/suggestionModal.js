@@ -33,7 +33,6 @@ module.exports = {
             .setMaxLength(1000)
             .setLabel("What is your suggestion?")
             .setStyle(TextInputStyle.Paragraph)
-            .setValue("Make the code readable")
         )
       ),
   },
@@ -41,16 +40,14 @@ module.exports = {
     const suggestionLabel =
       interaction.fields.getTextInputValue("suggestionLabel");
     const user = interaction.user;
-    const userName = user.username;
+    const userName = user.tag;
     const suggestion = interaction.fields.getTextInputValue("suggestion");
 
     const embed = new EmbedBuilder()
       .setColor("Random")
       .setTitle(`${userName}'s Suggestion:`)
-      .addFields(
-        { name: `\`About Suggestion\``, value: suggestionLabel },
-        { name: `\`Suggestion\``, value: suggestion }
-      )
+      .addFields({ name: `\`Suggestion\``, value: suggestion })
+      .setDescription(suggestionLabel)
       .setTimestamp();
 
     webhookClient.send({
