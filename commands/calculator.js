@@ -3,7 +3,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("freshcalculator")
+    .setName("calculator")
     .setDescription(
       "Calculates your basedness, simpness, cringeness, gayness, dicksize and more (%99 correct!)"
     )
