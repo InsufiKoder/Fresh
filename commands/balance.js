@@ -5,10 +5,17 @@ const fs = require("fs");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("balance")
-    .setDescription("Check your balance"),
-  global: false,
+    .setDescription("Check your balance")
+    .addUserOption((option) =>
+      option
+        .setName("user")
+        .setDescription("User to check the balance of")
+        .setRequired(false)
+    ),
+  global: true,
   async execute(interaction) {
-    const userId = interaction.user.id;
+    const targetUser = interaction.options.getUser("user");
+    const userId = targetUser.id || interaction.user.id;
     let database = {};
 
     // Read the database file
@@ -35,7 +42,7 @@ module.exports = {
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       interaction.reply(
-        "An error occurred. Please make sure you are registered in the database."
+        "An error occurred. Please make sure you or the mentioned person are registered in the database."
       );
       console.log(error);
     }

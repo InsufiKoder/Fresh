@@ -35,7 +35,7 @@ module.exports = {
           }
         )
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const targetUser = interaction.options.getUser("user");
     const amount = interaction.options.getInteger("amount");

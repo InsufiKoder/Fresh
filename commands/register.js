@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("register")
     .setDescription("Register user in the database"),
-  global: false,
+  global: true,
   async execute(interaction) {
     const userId = interaction.user.id;
     let database = {};
