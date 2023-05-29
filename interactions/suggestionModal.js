@@ -29,7 +29,7 @@ module.exports = {
         new ActionRowBuilder().addComponents(
           new TextInputBuilder()
             .setCustomId("suggestion")
-            .setRequired(false)
+            .setRequired(true)
             .setMaxLength(1000)
             .setLabel("What is your suggestion?")
             .setStyle(TextInputStyle.Paragraph)
