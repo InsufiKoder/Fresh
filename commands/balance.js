@@ -14,8 +14,8 @@ module.exports = {
     ),
   global: true,
   async execute(interaction) {
-    const targetUser = interaction.options.getUser("user");
-    const userId = targetUser.id || interaction.user.id;
+    const user = interaction.options.getMember("user") || interaction.user;
+    const userId = user.id;
     let database = {};
 
     // Read the database file
