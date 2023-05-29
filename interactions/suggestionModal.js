@@ -22,16 +22,16 @@ module.exports = {
             .setRequired(true)
             .setMinLength(1)
             .setMaxLength(100)
-            .setLabel("What is the suggestion about?")
+            .setLabel("What is the feature you want in the bot?")
             .setStyle(TextInputStyle.Short)
-            .setPlaceholder("About making the code readable")
+            .setPlaceholder("coinflip")
         ),
         new ActionRowBuilder().addComponents(
           new TextInputBuilder()
             .setCustomId("suggestion")
             .setRequired(true)
             .setMaxLength(1000)
-            .setLabel("What is your suggestion?")
+            .setLabel("Explain your suggestion")
             .setStyle(TextInputStyle.Paragraph)
         )
       ),

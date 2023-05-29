@@ -6,7 +6,7 @@ const ownerId = require("../config.json");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("addmoney")
-    .setDescription("Add money to a user's wallet balance")
+    .setDescription("Add money to a user's balance")
     .addUserOption((option) =>
       option
         .setName("user")
@@ -43,6 +43,7 @@ module.exports = {
 
     if (!interaction.user.id == ownerId) {
       interaction.reply("Only the owner of the bot can use this command.");
+      return;
     }
 
     if (amount <= 0) {
