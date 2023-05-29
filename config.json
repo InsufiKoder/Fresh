@@ -1,5 +1,6 @@
 {
 	"guildId": "",
 	"webhookId": "",
-	"webhookToken": ""
+	"webhookToken": "",
+	"ownerId": ""
 }
