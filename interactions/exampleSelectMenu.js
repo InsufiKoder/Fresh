@@ -1,23 +1,26 @@
-const { SelectMenuBuilder, SelectMenuOptionBuilder } = require("discord.js");
+const {
+  StringSelectMenuBuilder,
+  StringSelectMenuOptionBuilder,
+} = require("discord.js");
 
 module.exports = {
   data: {
     id: "mySelectMenu",
-    builder: new SelectMenuBuilder()
+    builder: new StringSelectMenuBuilder()
       .setCustomId("mySelectMenu")
       .setPlaceholder("Nothing selected")
       //.setMinValues(1)
       //.setMaxValues(2)
       .addOptions(
-        new SelectMenuOptionBuilder()
+        new StringSelectMenuOptionBuilder()
           .setLabel("Option A")
           .setValue("a")
           .setDescription("Description"),
-        new SelectMenuOptionBuilder()
+        new StringSelectMenuOptionBuilder()
           .setLabel("Option B")
           .setValue("b")
           .setDescription("Description"),
-        new SelectMenuOptionBuilder()
+        new StringSelectMenuOptionBuilder()
           .setLabel("Option C")
           .setValue("c")
           .setDescription("Description")
