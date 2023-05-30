@@ -16,7 +16,6 @@ module.exports = {
       );
     } else {
       const earnedAmount = Math.floor(Math.random() * (500 - 50 + 1) + 50);
-      console.log(earnedAmount);
 
       const databasePath = "database.json";
       let database = {};
