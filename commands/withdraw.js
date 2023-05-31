@@ -12,7 +12,7 @@ module.exports = {
         .setDescription("Amount of money to withdraw")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const amount = interaction.options.getInteger("amount");
 
