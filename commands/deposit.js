@@ -63,8 +63,8 @@ module.exports = {
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
-      console.log("Error adding money:", error);
-      interaction.reply("An error occurred while adding money.");
+      console.log("Error depositing:", error);
+      interaction.reply("An error occurred while depositing money.");
     }
   },
 };
