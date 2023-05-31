@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const fs = require("fs");
-const ownerId = require("../config.json");
+const { ownerId } = require("../config.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -41,7 +41,7 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
     const where = interaction.options.getString("where");
 
-    if (interaction.user.id !== ownerId) {
+    if (interaction.user.id != ownerId) {
       interaction.reply("Only the owner of the bot can use this command.");
       return;
     }
