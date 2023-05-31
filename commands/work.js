@@ -14,6 +14,7 @@ module.exports = {
       interaction.reply(
         "You should wait a minute before using this command again."
       );
+      return;
     } else {
       const earnedAmount = Math.floor(Math.random() * (500 - 50 + 1) + 50);
 

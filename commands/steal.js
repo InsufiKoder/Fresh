@@ -20,6 +20,7 @@ module.exports = {
       interaction.reply(
         "You should wait 5 minutes before using this command again."
       );
+      return;
     } else {
       const targetUser = interaction.options.getUser("user");
 
