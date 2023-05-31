@@ -14,7 +14,7 @@ module.exports = {
         .setDescription("User you want to rob")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     if (recentlyUsed.has(interaction.user.id)) {
       interaction.reply(
