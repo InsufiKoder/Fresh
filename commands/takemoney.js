@@ -41,7 +41,7 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
     const where = interaction.options.getString("where");
 
-    if (!interaction.user.id == ownerId) {
+    if (interaction.user.id !== ownerId) {
       interaction.reply("Only the owner of the bot can use this command.");
       return;
     }

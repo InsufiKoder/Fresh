@@ -18,7 +18,7 @@ module.exports = {
     const targetUser = interaction.options.getUser("user");
     let database = {};
 
-    if (!interaction.user.id == ownerId) {
+    if (interaction.user.id !== ownerId) {
       interaction.reply("Only the owner of the bot can use this command.");
       return;
     }
