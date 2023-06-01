@@ -18,6 +18,7 @@ module.exports = {
     const song = interaction.options.getString("song");
 
     try {
+      await interaction.reply(`Searching genius for ${song}`);
       // Search for the song using the Genius API
       const searchResponse = await axios.get(
         `https://api.genius.com/search?q=${encodeURIComponent(song)}`,
@@ -57,9 +58,9 @@ module.exports = {
           )
           .setTimestamp();
 
-        await interaction.reply({ embeds: [replyEmbed] });
+        await interaction.editReply({ embeds: [replyEmbed] });
       } else {
-        await interaction.reply({
+        await interaction.editReply({
           content: `No lyrics found for **${song}**.`,
         });
       }
