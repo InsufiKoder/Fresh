@@ -17,7 +17,7 @@ module.exports = {
     const query = interaction.options.getString("query");
 
     try {
-      await interaction.reply(`Searching wikipedia for ${query}`);
+      await interaction.reply(`Searching wikipedia for: **${query}**`);
       const response = await axios.get(
         `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(
           query
@@ -33,7 +33,7 @@ module.exports = {
           .setURL(data.content_urls.desktop.page)
           .setTimestamp();
 
-        await interaction.editReply({ embeds: [replyEmbed] });
+        await interaction.editReply({ content: "", embeds: [replyEmbed] });
       } else {
         await interaction.editReply({
           content: `No Wikipedia page found for **${query}**.`,

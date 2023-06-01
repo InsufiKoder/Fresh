@@ -17,7 +17,9 @@ module.exports = {
     const word = interaction.options.getString("word");
 
     try {
-      await interaction.reply(`Searching the urban dictionary for ${word}`);
+      await interaction.reply(
+        `Searching the urban dictionary for: **${word}**`
+      );
       const response = await axios.get(
         `http://api.urbandictionary.com/v0/define?term=${encodeURIComponent(
           word
@@ -34,7 +36,7 @@ module.exports = {
           .addFields({ name: `**${word}**`, value: `${definition.definition}` })
           .setTimestamp();
 
-        await interaction.editReply({ embeds: [replyEmbed] });
+        await interaction.editReply({ content: "", embeds: [replyEmbed] });
       } else {
         await interaction.editReply({
           content: `No definition found for **${word}**.`,
