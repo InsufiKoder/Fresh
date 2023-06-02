@@ -23,9 +23,9 @@ module.exports = {
   global: true,
   async execute(interaction) {
     try {
-      await interaction.reply(`Translating **${text}** to: **${language}**`);
       const text = interaction.options.getString("text");
       const lang = interaction.options.getString("language");
+      await interaction.reply(`Translating **${text}** to: **${language}**`);
 
       const res = await translate(text, { to: lang });
       const iso = ISO6391.getName(lang) || lang;
@@ -49,6 +49,7 @@ module.exports = {
       await interaction.reply({
         content: "Please enter a valid language and try again.",
       });
+      console.log(err);
     }
   },
 };
