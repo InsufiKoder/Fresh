@@ -23,6 +23,7 @@ module.exports = {
   global: true,
   async execute(interaction) {
     try {
+      await interaction.reply(`Translating **${text}** to: **${language}**`);
       const text = interaction.options.getString("text");
       const lang = interaction.options.getString("language");
 
@@ -43,7 +44,7 @@ module.exports = {
         )
         .setTimestamp();
 
-      await interaction.reply({ embeds: [replyEmbed] });
+      await interaction.editReply({ embeds: [replyEmbed] });
     } catch (err) {
       await interaction.reply({
         content: "Please enter a valid language and try again.",
