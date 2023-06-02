@@ -25,7 +25,7 @@ module.exports = {
     try {
       const text = interaction.options.getString("text");
       const lang = interaction.options.getString("language");
-      await interaction.reply(`Translating **${text}** to: **${language}**`);
+      await interaction.reply(`Translating **${text}** to: **${lang}**`);
 
       const res = await translate(text, { to: lang });
       const iso = ISO6391.getName(lang) || lang;
