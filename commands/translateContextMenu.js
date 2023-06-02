@@ -10,6 +10,7 @@ module.exports = {
   global: true,
   async execute(interaction) {
     const msg = interaction.targetMessage.content;
+    await interaction.reply(`Translating **${msg}** to: **English**`);
     const res = await translate(msg, { to: "en" });
     const replyEmbed = new EmbedBuilder()
       .setColor("Random")
@@ -24,6 +25,6 @@ module.exports = {
       )
       .setTimestamp();
 
-    await interaction.reply({ embeds: [replyEmbed] });
+    await interaction.editReply({ content: "", embeds: [replyEmbed] });
   },
 };

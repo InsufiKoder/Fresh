@@ -44,7 +44,7 @@ module.exports = {
         )
         .setTimestamp();
 
-      await interaction.editReply({ embeds: [replyEmbed] });
+      await interaction.editReply({ content: "", embeds: [replyEmbed] });
     } catch (err) {
       await interaction.reply({
         content: "Please enter a valid language and try again.",
