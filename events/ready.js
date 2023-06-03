@@ -29,7 +29,7 @@ module.exports = {
       .put(Routes.applicationGuildCommands(client.user.id, config.guildId), {
         body: guildCommands,
       })
-      .catch(console.error); // Throw error if no guild id is given / the id is wrong
+      .catch(console.error); // Throw error if no guild id is given / the id is wrong. You can disable this part of the code if you don't have any guild for testing.
 
     // Rich Presence
     client.user.setPresence({
