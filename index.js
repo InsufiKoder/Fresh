@@ -6,6 +6,8 @@ const {
 } = require("discord.js");
 const dotenv = require("dotenv");
 const fs = require("fs");
+const path = require("path");
+const schedule = require("node-schedule");
 
 dotenv.config();
 
@@ -65,5 +67,17 @@ for (const file of fs
   }
 }
 
+// Schedule backup every 6 hours
+const backupSchedule = schedule.scheduleJob("0 */6 * * *", () => {
+  const databaseFilePath = path.join(__dirname, "database.json");
+  const backupFilePath = path.join(__dirname, "database_backup.json");
+
+  fs.copyFileSync(databaseFilePath, backupFilePath);
+  console.log("Database backup created/updated successfully.");
+});
+
 // Login
 client.login(process.env.TOKEN);
+
+// Run the backup schedule
+backupSchedule();

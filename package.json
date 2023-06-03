@@ -24,6 +24,7 @@
     "fs": "^0.0.1-security",
     "google-translate-api-x": "^10.4.2",
     "iso-639-1": "^2.1.15",
-    "ms-prettify": "^1.4.0"
+    "ms-prettify": "^1.4.0",
+    "node-schedule": "^2.1.1"
   }
 }
