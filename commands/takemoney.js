@@ -88,7 +88,7 @@ module.exports = {
         .setColor("Random")
         .setTitle("Money Removed")
         .setDescription(
-          `Removed ${amount} coins from ${targetUser}'s ${where} balance.`
+          `Removed **${amount}** coins from ${targetUser}'s ${where} balance.`
         )
         .setTimestamp();
 

@@ -65,11 +65,24 @@ module.exports = {
 
           database[targetUser.id].walletBalance -= stolenAmount;
           database[interaction.user.id].walletBalance += stolenAmount;
-          interaction.reply(
-            `You sucessfully robbed ${targetUser}! You gained ${stolenAmount} coins.`
-          );
+
+          const replyEmbed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle("Robbing successful")
+            .setDescription(
+              `You sucessfully robbed ${targetUser}! You gained **${stolenAmount}** coins.`
+            )
+            .setTimestamp();
+          interaction.reply({ embeds: [replyEmbed] });
         } else {
-          interaction.reply("Your robbing attempt was unsuccessful.");
+          const replyEmbed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle("Robbing failed")
+            .setDescription(
+              `Your robbing attempt to rob ${targetUser} was unsuccessful.`
+            )
+            .setTimestamp();
+          interaction.reply({ embeds: [replyEmbed] });
           return;
         }
         // Write the updated database back to the file

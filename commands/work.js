@@ -41,7 +41,13 @@ module.exports = {
         }
         // Add the earned amount of money to the user's wallet balance
         database[interaction.user.id].walletBalance += earnedAmount;
-        interaction.reply(`You gained ${earnedAmount} coins.`);
+
+        const replyEmbed = new EmbedBuilder()
+          .setColor("Random")
+          .setTitle("You worked your ass off")
+          .setDescription(`You gained **${earnedAmount}** coins.`)
+          .setTimestamp();
+        interaction.reply({ embeds: [replyEmbed] });
 
         // Write the updated database back to the file
         fs.writeFileSync(databasePath, JSON.stringify(database));

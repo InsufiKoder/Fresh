@@ -49,10 +49,21 @@ module.exports = {
       if (rand == 0) {
         // Add money to the user's wallet balance
         database[interaction.user.id].walletBalance += amount * 2;
-        interaction.reply(`Congratulations! You won ${amount * 2} coins.`);
+
+        const replyEmbed = new EmbedBuilder()
+          .setColor("Random")
+          .setTitle("Congratulations!")
+          .setDescription(`You won **${amount * 2}** coins.`)
+          .setTimestamp();
+        interaction.reply({ embeds: [replyEmbed] });
       } else if (rand == 1) {
         // User lost
-        interaction.reply(`You lost ${amount} coins.`);
+        const replyEmbed = new EmbedBuilder()
+          .setColor("Random")
+          .setTitle("You Lost")
+          .setDescription(`You lost **${amount}** coins.`)
+          .setTimestamp();
+        interaction.reply({ embeds: [replyEmbed] });
       }
 
       // Write the updated database back to the file

@@ -57,7 +57,7 @@ module.exports = {
         .setColor("Random")
         .setTitle("Money Withdrawn")
         .setDescription(
-          `Withdrawn ${amount} coins from ${interaction.user}'s bank balance.`
+          `Withdrawn **${amount}** coins from ${interaction.user}'s bank balance.`
         )
         .setTimestamp();
 

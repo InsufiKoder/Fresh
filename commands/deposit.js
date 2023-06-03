@@ -57,7 +57,7 @@ module.exports = {
         .setColor("Random")
         .setTitle("Money Deposited")
         .setDescription(
-          `Deposited ${amount} coins to ${interaction.user}'s bank balance.`
+          `Deposited **${amount}** coins to ${interaction.user}'s bank balance.`
         )
         .setTimestamp();
 

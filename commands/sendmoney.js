@@ -65,7 +65,7 @@ module.exports = {
         .setColor("Random")
         .setTitle("Money Sent")
         .setDescription(
-          `Sent ${amount} coins to ${targetUser}'s wallet balance.`
+          `Sent **${amount}** coins to ${targetUser}'s wallet balance.`
         )
         .setTimestamp();
 

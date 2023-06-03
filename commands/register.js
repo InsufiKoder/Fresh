@@ -8,7 +8,8 @@ module.exports = {
     .setDescription("Register user in the database"),
   global: true,
   async execute(interaction) {
-    const userId = interaction.user.id;
+    const user = interaction.user;
+    const userId = user.id;
     let database = {};
 
     // Read the database file
@@ -24,7 +25,7 @@ module.exports = {
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
         .setTitle("Registration Failed")
-        .setDescription("User is already registered.")
+        .setDescription(`${user} is already registered.`)
         .setTimestamp();
 
       await interaction.reply({ embeds: [replyEmbed] });
@@ -47,7 +48,7 @@ module.exports = {
     const replyEmbed = new EmbedBuilder()
       .setColor("Random")
       .setTitle("Registration Successful")
-      .setDescription("User registered successfully.")
+      .setDescription(`${user} registered successfully.`)
       .setTimestamp();
 
     await interaction.reply({ embeds: [replyEmbed] });
