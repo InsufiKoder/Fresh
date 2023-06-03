@@ -26,7 +26,7 @@ module.exports = {
 
     // kick the user
     try {
-      await interaction.guild.members.ban(user);
+      await interaction.guild.members.kick(user);
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
         .setTitle(`Successfully kicked ${user.username}`)

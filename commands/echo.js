@@ -8,7 +8,7 @@ module.exports = {
     .addStringOption((option) =>
       option.setName("text").setDescription("Text to echo").setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const text = interaction.options.getString("text");
     try {
