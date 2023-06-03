@@ -23,12 +23,13 @@ module.exports = {
   global: true,
   async execute(interaction) {
     try {
+      await interaction.reply("Please wait");
       const text = interaction.options.getString("text");
       const lang = interaction.options.getString("language");
 
       const res = await translate(text, { to: lang });
       const iso = ISO6391.getName(lang) || lang;
-      await interaction.reply(`Translating **${text}** to: **${iso}**`);
+      await interaction.editReply(`Translating **${text}** to: **${iso}**`);
 
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
