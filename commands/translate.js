@@ -29,7 +29,7 @@ module.exports = {
 
       const res = await translate(text, { to: lang });
       const iso = ISO6391.getName(lang) || lang;
-      await interaction.reply(`Translating **${text}** to: **${iso}**`);
+      await interaction.editReply(`Translating **${text}** to: **${iso}**`);
 
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
@@ -48,8 +48,7 @@ module.exports = {
 
       await interaction.editReply({ content: "", embeds: [replyEmbed] });
     } catch (err) {
-      await interaction.deferReply();
-      await interaction.reply({
+      await interaction.followUp({
         content: "Please enter a valid language and try again.",
       });
       console.log(err);
