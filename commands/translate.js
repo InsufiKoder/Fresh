@@ -48,7 +48,7 @@ module.exports = {
 
       await interaction.editReply({ content: "", embeds: [replyEmbed] });
     } catch (err) {
-      await interaction.reply({
+      await interaction.editReply({
         content: "Please enter a valid language and try again.",
       });
       console.log(err);
