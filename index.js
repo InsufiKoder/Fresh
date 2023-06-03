@@ -78,6 +78,3 @@ const backupSchedule = schedule.scheduleJob("0 */6 * * *", () => {
 
 // Login
 client.login(process.env.TOKEN);
-
-// Run the backup schedule
-backupSchedule();
