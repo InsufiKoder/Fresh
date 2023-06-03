@@ -4,39 +4,39 @@ const { PermissionsBitField } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("ban")
-    .setDescription("Ban a user from the server")
+    .setName("kick")
+    .setDescription("kick a user from the server")
     .addUserOption((option) =>
-      option.setName("user").setDescription("User to ban").setRequired(true)
+      option.setName("user").setDescription("User to kick").setRequired(true)
     )
-    .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers),
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.KickMembers),
   global: true,
   async execute(interaction) {
     const user = interaction.options.getUser("user");
 
-    // Check if the bot has the necessary permissions to ban members
+    // Check if the bot has the necessary permissions to kick members
     if (
       !interaction.guild.members.me.permissions.has(
-        PermissionsBitField.Flags.BanMembers
+        PermissionsBitField.Flags.KickMembers
       )
     ) {
-      await interaction.reply("I don't have permission to ban members.");
+      await interaction.reply("I don't have permission to kick members.");
       return;
     }
 
-    // Ban the user
+    // kick the user
     try {
       await interaction.guild.members.ban(user);
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle(`Successfully banned ${user}`)
-        .setDescription(`**${user.tag}** has been successfully banned.`)
+        .setTitle(`Successfully kicked ${user}`)
+        .setDescription(`**${user.tag}** has been successfully kicked.`)
         .setTimestamp();
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
-      console.error("Error banning user:", error);
-      await interaction.reply("An error occurred while banning the user.");
+      console.error("Error kicking user:", error);
+      await interaction.reply("An error occurred while kicking the user.");
     }
   },
 };
