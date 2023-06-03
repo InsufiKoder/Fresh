@@ -23,13 +23,13 @@ module.exports = {
   global: true,
   async execute(interaction) {
     try {
-      await interaction.reply("Please wait");
+      await interaction.deferReply();
       const text = interaction.options.getString("text");
       const lang = interaction.options.getString("language");
 
       const res = await translate(text, { to: lang });
       const iso = ISO6391.getName(lang) || lang;
-      await interaction.editReply(`Translating **${text}** to: **${iso}**`);
+      await interaction.reply(`Translating **${text}** to: **${iso}**`);
 
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
@@ -48,6 +48,7 @@ module.exports = {
 
       await interaction.editReply({ content: "", embeds: [replyEmbed] });
     } catch (err) {
+      await interaction.deferReply();
       await interaction.reply({
         content: "Please enter a valid language and try again.",
       });
