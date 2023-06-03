@@ -12,7 +12,7 @@ module.exports = {
         .setDescription("Enter a query to search on Wikipedia")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const query = interaction.options.getString("query");
 
