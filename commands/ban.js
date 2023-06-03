@@ -9,10 +9,19 @@ module.exports = {
     .addUserOption((option) =>
       option.setName("user").setDescription("User to ban").setRequired(true)
     )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription("Reason of the ban")
+        .setRequired(false)
+    )
     .setDefaultMemberPermissions(PermissionsBitField.Flags.BanMembers),
   global: true,
   async execute(interaction) {
     const user = interaction.options.getUser("user");
+    const reason =
+      interaction.options.getString("reason") ||
+      `Banned by Fresh. No reason specified.`;
 
     // Check if the bot has the necessary permissions to ban members
     if (
@@ -26,10 +35,10 @@ module.exports = {
 
     // Ban the user
     try {
-      await interaction.guild.members.ban(user);
+      await interaction.guild.members.ban(user, { reason: reason });
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle(`Successfully banned ${user}`)
+        .setTitle(`Successfully banned ${user.username}`)
         .setDescription(`**${user.tag}** has been successfully banned.`)
         .setTimestamp();
 

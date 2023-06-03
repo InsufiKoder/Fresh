@@ -29,7 +29,7 @@ module.exports = {
       await interaction.guild.members.ban(user);
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle(`Successfully kicked ${user}`)
+        .setTitle(`Successfully kicked ${user.username}`)
         .setDescription(`**${user.tag}** has been successfully kicked.`)
         .setTimestamp();
 
