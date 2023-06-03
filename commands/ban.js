@@ -40,6 +40,7 @@ module.exports = {
         .setColor("Random")
         .setTitle(`Successfully banned ${user.username}`)
         .setDescription(`**${user.tag}** has been successfully banned.`)
+        .addFields({ name: `\`Reason:\``, value: reason })
         .setTimestamp();
 
       await interaction.reply({ embeds: [replyEmbed] });
