@@ -17,7 +17,7 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
 
     if (amount <= 0) {
-      interaction.reply("Please enter a positive amount to deposit.");
+      await interaction.reply("Please enter a positive amount to deposit.");
       return;
     }
 
@@ -30,21 +30,23 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
 
     try {
       // Check if user exists in the database
       if (!database[interaction.user.id]) {
-        interaction.reply(
+        await interaction.reply(
           "The specified user is not registered in the database."
         );
         return;
       }
 
       if (database[interaction.user.id].walletBalance < amount) {
-        interaction.reply("You don't have enough money to deposit.");
+        await interaction.reply("You don't have enough money to deposit.");
         return;
       }
       database[interaction.user.id].walletBalance -= amount;
@@ -64,7 +66,7 @@ module.exports = {
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       console.log("Error depositing:", error);
-      interaction.reply("An error occurred while depositing money.");
+      await interaction.reply("An error occurred while depositing money.");
     }
   },
 };

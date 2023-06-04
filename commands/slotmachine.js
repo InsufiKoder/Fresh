@@ -17,7 +17,7 @@ module.exports = {
     const betAmount = interaction.options.getInteger("bet");
 
     if (betAmount <= 0) {
-      interaction.reply("Please enter a positive bet amount.");
+      await interaction.reply("Please enter a positive bet amount.");
       return;
     }
 
@@ -31,20 +31,24 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
 
     try {
       // Check if the given bet amount is higher than the user's wallet balance
       if (betAmount > database[interaction.user.id].walletBalance) {
-        interaction.reply("You're betting more than you have in your wallet.");
+        await interaction.reply(
+          "You're betting more than you have in your wallet."
+        );
         return;
       }
 
       // Check if user exists in the database
       if (!database[interaction.user.id]) {
-        interaction.reply("You are not registered in the database.");
+        await interaction.reply("You are not registered in the database.");
         return;
       }
 
@@ -114,7 +118,9 @@ module.exports = {
       fs.writeFileSync(databasePath, JSON.stringify(database));
     } catch (error) {
       console.log("An error occurred in slot machine:", error);
-      interaction.reply("An error occurred while playing the slot machine.");
+      await interaction.reply(
+        "An error occurred while playing the slot machine."
+      );
     }
   },
 };

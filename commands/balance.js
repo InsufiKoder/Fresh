@@ -41,7 +41,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
-      interaction.reply(
+      await interaction.reply(
         "An error occurred. Please make sure you or the mentioned person are registered in the database."
       );
       console.log(error);

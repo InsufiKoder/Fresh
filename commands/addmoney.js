@@ -42,12 +42,14 @@ module.exports = {
     const where = interaction.options.getString("where");
 
     if (interaction.user.id != ownerId) {
-      interaction.reply("Only the owner of the bot can use this command.");
+      await interaction.reply(
+        "Only the owner of the bot can use this command."
+      );
       return;
     }
 
     if (amount <= 0) {
-      interaction.reply("Please enter a positive amount to add.");
+      await interaction.reply("Please enter a positive amount to add.");
       return;
     }
 
@@ -60,14 +62,16 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
 
     try {
       // Check if targetUser exists in the database
       if (!database[targetUser.id]) {
-        interaction.reply(
+        await interaction.reply(
           "The specified user is not registered in the database."
         );
         return;
@@ -95,7 +99,7 @@ module.exports = {
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       console.log("Error adding money:", error);
-      interaction.reply("An error occurred while adding money.");
+      await interaction.reply("An error occurred while adding money.");
     }
   },
 };

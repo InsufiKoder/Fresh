@@ -25,19 +25,23 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
     // Check if the given amount is higher than user's wallet balance
     if (amount > database[interaction.user.id].walletBalance) {
-      interaction.reply("You're betting more than you have in your wallet.");
+      await interaction.reply(
+        "You're betting more than you have in your wallet."
+      );
       return;
     }
 
     try {
       // Check if user exists in the database
       if (!database[interaction.user.id]) {
-        interaction.reply(
+        await interaction.reply(
           "The specified user is not registered in the database."
         );
         return;
@@ -55,7 +59,7 @@ module.exports = {
           .setTitle("Congratulations!")
           .setDescription(`You won **${amount * 2}** coins.`)
           .setTimestamp();
-        interaction.reply({ embeds: [replyEmbed] });
+        await interaction.reply({ embeds: [replyEmbed] });
       } else if (rand == 1) {
         // User lost
         const replyEmbed = new EmbedBuilder()
@@ -63,14 +67,14 @@ module.exports = {
           .setTitle("You Lost")
           .setDescription(`You lost **${amount}** coins.`)
           .setTimestamp();
-        interaction.reply({ embeds: [replyEmbed] });
+        await interaction.reply({ embeds: [replyEmbed] });
       }
 
       // Write the updated database back to the file
       fs.writeFileSync(databasePath, JSON.stringify(database));
     } catch (error) {
       console.log("An error occured in coinflip.js:", error);
-      interaction.reply("An error occurred while betting.");
+      await interaction.reply("An error occurred while betting.");
     }
   },
 };

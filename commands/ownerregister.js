@@ -19,7 +19,9 @@ module.exports = {
     let database = {};
 
     if (interaction.user.id != ownerId) {
-      interaction.reply("Only the owner of the bot can use this command.");
+      await interaction.reply(
+        "Only the owner of the bot can use this command."
+      );
       return;
     }
 

@@ -11,7 +11,7 @@ module.exports = {
   global: true,
   async execute(interaction) {
     if (recentlyUsed.has(interaction.user.id)) {
-      interaction.reply(
+      await interaction.reply(
         "You should wait a minute before using this command again."
       );
       return;
@@ -27,14 +27,16 @@ module.exports = {
         database = JSON.parse(data);
       } catch (error) {
         console.log("Error reading database:", error);
-        interaction.reply("An error occurred while accessing the database.");
+        await interaction.reply(
+          "An error occurred while accessing the database."
+        );
         return;
       }
 
       try {
         // Check if user exists in the database
         if (!database[interaction.user.id]) {
-          interaction.reply(
+          await interaction.reply(
             "The specified user is not registered in the database."
           );
           return;
@@ -47,13 +49,13 @@ module.exports = {
           .setTitle("You worked your ass off")
           .setDescription(`You gained **${earnedAmount}** coins.`)
           .setTimestamp();
-        interaction.reply({ embeds: [replyEmbed] });
+        await interaction.reply({ embeds: [replyEmbed] });
 
         // Write the updated database back to the file
         fs.writeFileSync(databasePath, JSON.stringify(database));
       } catch (error) {
         console.log("An error occured in coinflip.js:", error);
-        interaction.reply("An error occurred while betting.");
+        await interaction.reply("An error occurred while betting.");
       }
 
       // Adds the user to the set so that they can't talk for a minute

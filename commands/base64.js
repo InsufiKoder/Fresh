@@ -52,7 +52,7 @@ module.exports = {
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
-      interaction.reply("An error occured. Please try again later.");
+      await interaction.reply("An error occured. Please try again later.");
       console.log(error);
     }
   },

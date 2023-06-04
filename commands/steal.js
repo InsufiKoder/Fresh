@@ -17,7 +17,7 @@ module.exports = {
   global: true,
   async execute(interaction) {
     if (recentlyUsed.has(interaction.user.id)) {
-      interaction.reply(
+      await interaction.reply(
         "You should wait 5 minutes before using this command again."
       );
       return;
@@ -33,21 +33,23 @@ module.exports = {
         database = JSON.parse(data);
       } catch (error) {
         console.log("Error reading database:", error);
-        interaction.reply("An error occurred while accessing the database.");
+        await interaction.reply(
+          "An error occurred while accessing the database."
+        );
         return;
       }
 
       try {
         // Check if targetUser exists in the database
         if (!database[targetUser.id]) {
-          interaction.reply(
+          await interaction.reply(
             "The specified user is not registered in the database."
           );
           return;
         }
         // Check if sender exists in the database
         if (!database[interaction.user.id]) {
-          interaction.reply("You are not registered in the database.");
+          await interaction.reply("You are not registered in the database.");
           return;
         }
 
@@ -58,7 +60,7 @@ module.exports = {
             Math.random() * (750 - 250 + 1) + 250
           );
           if (database[targetUser.id].walletBalance < 1000) {
-            interaction.reply(
+            await interaction.reply(
               "This user has less than 1000 coins in their wallet. You can't rob them."
             );
             return;
@@ -74,7 +76,7 @@ module.exports = {
               `You sucessfully robbed ${targetUser}! You gained **${stolenAmount}** coins.`
             )
             .setTimestamp();
-          interaction.reply({ embeds: [replyEmbed] });
+          await interaction.reply({ embeds: [replyEmbed] });
         } else {
           const replyEmbed = new EmbedBuilder()
             .setColor("Random")
@@ -83,14 +85,14 @@ module.exports = {
               `Your robbing attempt to rob ${targetUser} was unsuccessful.`
             )
             .setTimestamp();
-          interaction.reply({ embeds: [replyEmbed] });
+          await interaction.reply({ embeds: [replyEmbed] });
           return;
         }
         // Write the updated database back to the file
         fs.writeFileSync(databasePath, JSON.stringify(database));
       } catch (error) {
         console.log("Error robbing:", error);
-        interaction.reply("An error occurred while trying to rob.");
+        await interaction.reply("An error occurred while trying to rob.");
       }
 
       // Adds the user to the set so that they can't talk for a minute

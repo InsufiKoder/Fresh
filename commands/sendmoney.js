@@ -24,7 +24,7 @@ module.exports = {
     const amount = interaction.options.getInteger("amount");
 
     if (amount <= 0) {
-      interaction.reply("Please enter a positive amount to send.");
+      await interaction.reply("Please enter a positive amount to send.");
       return;
     }
 
@@ -37,21 +37,23 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
 
     try {
       // Check if targetUser exists in the database
       if (!database[targetUser.id]) {
-        interaction.reply(
+        await interaction.reply(
           "The specified user is not registered in the database."
         );
         return;
       }
       // Check if sender exists in the database
       if (!database[interaction.user.id]) {
-        interaction.reply("You are not registered in the database.");
+        await interaction.reply("You are not registered in the database.");
         return;
       }
 
@@ -72,7 +74,7 @@ module.exports = {
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       console.log("Error sending money:", error);
-      interaction.reply("An error occurred while sending money.");
+      await interaction.reply("An error occurred while sending money.");
     }
   },
 };

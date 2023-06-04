@@ -35,7 +35,9 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      interaction.reply("An error occurred while accessing the database.");
+      await interaction.reply(
+        "An error occurred while accessing the database."
+      );
       return;
     }
 
@@ -77,7 +79,9 @@ module.exports = {
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       console.log("Error displaying leaderboard:", error);
-      interaction.reply("An error occurred while displaying the leaderboard.");
+      await interaction.reply(
+        "An error occurred while displaying the leaderboard."
+      );
     }
   },
 };
