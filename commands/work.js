@@ -54,8 +54,8 @@ module.exports = {
         // Write the updated database back to the file
         fs.writeFileSync(databasePath, JSON.stringify(database));
       } catch (error) {
-        console.log("An error occured in coinflip.js:", error);
-        await interaction.reply("An error occurred while betting.");
+        console.log("An error occured in work.js:", error);
+        await interaction.reply("An error occurred while working.");
       }
 
       // Adds the user to the set so that they can't talk for a minute
