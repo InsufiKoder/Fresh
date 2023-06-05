@@ -1,28 +1,28 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const fs = require("fs");
-const { ownerId } = require("../config.json");
+const { ownerId } = require("../../config.json");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("takemoney")
-    .setDescription("take money from a user's balance")
+    .setName("addmoney")
+    .setDescription("Add money to a user's balance")
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("User to take money from")
+        .setDescription("User to add money to")
         .setRequired(true)
     )
     .addIntegerOption((option) =>
       option
         .setName("amount")
-        .setDescription("Amount of money to take")
+        .setDescription("Amount of money to add")
         .setRequired(true)
     )
     .addStringOption((option) =>
       option
         .setName("where")
-        .setDescription("Where to take the money")
+        .setDescription("Where to add the money")
         .setRequired(true)
         .addChoices(
           {
@@ -78,11 +78,11 @@ module.exports = {
       }
 
       if (where == "wallet") {
-        // Take money from the user's wallet balance
-        database[targetUser.id].walletBalance -= amount;
+        // Add money to the user's wallet balance
+        database[targetUser.id].walletBalance += amount;
       } else if (where == "bank") {
-        // Take money from the user's bank balance
-        database[targetUser.id].bankBalance -= amount;
+        // Add money to the user's bank balance
+        database[targetUser.id].bankBalance += amount;
       }
 
       // Write the updated database back to the file
@@ -90,16 +90,16 @@ module.exports = {
 
       const replyEmbed = new EmbedBuilder()
         .setColor("Random")
-        .setTitle("Money Removed")
+        .setTitle("Money Added")
         .setDescription(
-          `Removed **${amount}** coins from ${targetUser}'s ${where} balance.`
+          `Added ${amount} coins to ${targetUser}'s ${where} balance.`
         )
         .setTimestamp();
 
       await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
-      console.log("Error removing money:", error);
-      await interaction.reply("An error occurred while removing money.");
+      console.log("Error adding money:", error);
+      await interaction.reply("An error occurred while adding money.");
     }
   },
 };

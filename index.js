@@ -8,10 +8,8 @@ const dotenv = require("dotenv");
 const fs = require("fs");
 const path = require("path");
 const schedule = require("node-schedule");
-
 dotenv.config();
 
-// Initialization
 const client = new Client({
   intents: [
     GatewayIntentBits.DirectMessages,
@@ -29,37 +27,38 @@ const client = new Client({
   ],
 });
 
-// Collections
-client.commands = new Collection();
-client.interactions = new Collection();
 client.cooldowns = new Collection();
 
-// Paths
-let commandPath = "./commands",
-  interactionPath = "./interactions",
-  eventPath = "./events";
+client.commands = new Collection();
+const foldersPath = path.join(__dirname, "commands");
+const commandFolders = fs.readdirSync(foldersPath);
 
-// Command Handler
-for (const file of fs
-  .readdirSync(commandPath)
-  .filter((file) => file.endsWith(".js"))) {
-  const command = require(`${commandPath}/${file}`);
-  client.commands.set(command.data.name, command);
+for (const folder of commandFolders) {
+  const commandsPath = path.join(foldersPath, folder);
+  const commandFiles = fs
+    .readdirSync(commandsPath)
+    .filter((file) => file.endsWith(".js"));
+  for (const file of commandFiles) {
+    const filePath = path.join(commandsPath, file);
+    const command = require(filePath);
+    if ("data" in command && "execute" in command) {
+      client.commands.set(command.data.name, command);
+    } else {
+      console.log(
+        `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
+      );
+    }
+  }
 }
 
-// Interaction Handler
-for (const file of fs
-  .readdirSync(interactionPath)
-  .filter((file) => file.endsWith(".js"))) {
-  const interaction = require(`${interactionPath}/${file}`);
-  client.interactions.set(interaction.data.id, interaction);
-}
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
-// Event Handler
-for (const file of fs
-  .readdirSync(eventPath)
-  .filter((file) => file.endsWith(".js"))) {
-  const event = require(`${eventPath}/${file}`);
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
   if (event.once) {
     client.once(event.name, (...args) => event.execute(...args));
   } else {
@@ -76,5 +75,4 @@ const backupSchedule = schedule.scheduleJob("0 */6 * * *", () => {
   console.log("Database backup created/updated successfully.");
 });
 
-// Login
 client.login(process.env.TOKEN);
