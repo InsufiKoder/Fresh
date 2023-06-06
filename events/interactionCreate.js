@@ -31,6 +31,10 @@ module.exports = {
         console.error(error);
       }
     }
+    if (interaction.isButton()) {
+      return interaction.deferUpdate();
+    }
+
     // Modal Handling
     if (interaction.commandName == "suggestion") {
       // Create the modal
