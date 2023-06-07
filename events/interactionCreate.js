@@ -23,6 +23,10 @@ module.exports = {
         console.error(error);
       }
     }
+    if (interaction.isContextMenuCommand()) {
+      const command = interaction.client.commands.get(interaction.commandName);
+      await command.execute(interaction);
+    }
 
     // Modal Handling
     // Collect and respond to modals
