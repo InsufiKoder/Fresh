@@ -77,10 +77,9 @@ module.exports = {
       .setLabel("Decline request")
       .setStyle(ButtonStyle.Danger);
 
-    const row = new ActionRowBuilder().addComponents(decline, accept);
-
+    const row = new ActionRowBuilder().addComponents(accept, decline);
     const response = await interaction.reply({
-      content: `${targetUser}, ${interaction.user} has requested **${amount}** coins from you. Do you accept?`,
+      content: `${targetUser}, ${interaction.user} has requested **${amount}** coin(s) from you. Do you accept?`,
       components: [row],
     });
 
@@ -128,6 +127,7 @@ module.exports = {
             .setTitle("Request Declined")
             .setDescription(`${targetUser} has declined your money request.`)
             .setTimestamp();
+
           await i.editReply({
             content: "",
             embeds: [replyEmbed],
