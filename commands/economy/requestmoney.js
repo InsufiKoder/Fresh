@@ -26,15 +26,16 @@ module.exports = {
     ),
   global: false,
   async execute(interaction) {
+    await interaction.reply("Please wait...");
     const targetUser = interaction.options.getUser("user");
     const amount = interaction.options.getInteger("amount");
 
     if (amount <= 0) {
-      await interaction.reply("Please enter a positive amount to send.");
+      await interaction.editReply("Please enter a positive amount to send.");
       return;
     }
     if (amount > 5000) {
-      await interaction.reply("You cannot request more than 5000 coins.");
+      await interaction.editReply("You cannot request more than 5000 coins.");
       return;
     }
 
@@ -47,7 +48,7 @@ module.exports = {
       database = JSON.parse(data);
     } catch (error) {
       console.log("Error reading database:", error);
-      await interaction.reply(
+      await interaction.editReply(
         "An error occurred while accessing the database."
       );
       return;
@@ -55,14 +56,14 @@ module.exports = {
 
     // Check if targetUser exists in the database
     if (!database[targetUser.id]) {
-      await interaction.reply(
+      await interaction.editReply(
         "The specified user is not registered in the database."
       );
       return;
     }
     // Check if sender exists in the database
     if (!database[interaction.user.id]) {
-      await interaction.reply("You are not registered in the database.");
+      await interaction.editReply("You are not registered in the database.");
       return;
     }
 
@@ -86,7 +87,7 @@ module.exports = {
     try {
       const collector = response.createMessageComponentCollector({
         componentType: ComponentType.Button,
-        time: 6000,
+        time: 3_600_000,
       });
 
       collector.on("collect", async (i) => {
@@ -97,8 +98,13 @@ module.exports = {
           });
           return;
         }
+        await i.reply("Please wait...");
 
         if (i.customId === "accept") {
+          if (database[targetUser.id].walletBalance < amount) {
+            await i.editReply("You don't have enough money to send.");
+            return;
+          }
           database[targetUser.id].walletBalance -= amount;
           database[interaction.user.id].walletBalance += amount;
 
@@ -110,7 +116,7 @@ module.exports = {
             .setDescription(`Sent **${amount}** coins to ${interaction.user}.`)
             .setTimestamp();
 
-          await i.update({
+          await i.editReply({
             content: ``,
             embeds: [replyEmbed],
             components: [],
@@ -122,7 +128,7 @@ module.exports = {
             .setTitle("Request Declined")
             .setDescription(`${targetUser} has declined your money request.`)
             .setTimestamp();
-          await i.update({
+          await i.editReply({
             content: "",
             embeds: [replyEmbed],
             components: [],
