@@ -34,8 +34,8 @@ module.exports = {
         .setColor("Random")
         .setTitle("Balance")
         .addFields(
-          { name: "Wallet Balance", value: `${walletBalance} coins` },
-          { name: "Bank Balance", value: `${bankBalance} coins` }
+          { name: "Wallet Balance", value: `**${walletBalance}** coins` },
+          { name: "Bank Balance", value: `**${bankBalance}** coins` }
         )
         .setTimestamp();
 
