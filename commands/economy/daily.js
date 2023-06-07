@@ -9,7 +9,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("daily")
     .setDescription("Claim your daily coins"),
-  global: false,
+  global: true,
   async execute(interaction) {
     if (recentlyUsed.has(interaction.user.id)) {
       await interaction.reply(

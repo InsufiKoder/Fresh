@@ -15,7 +15,7 @@ module.exports = {
           value: "multiplier15",
         })
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const item = interaction.options.getString("item");
 
