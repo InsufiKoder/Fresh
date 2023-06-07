@@ -1,6 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
-const { PermissionsBitField } = require("discord.js");
+const {
+  EmbedBuilder,
+  PermissionsBitField,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -24,19 +30,66 @@ module.exports = {
       return;
     }
 
-    // kick the user
-    try {
-      await interaction.guild.members.kick(user);
-      const replyEmbed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle(`Successfully kicked ${user.username}`)
-        .setDescription(`**${user.tag}** has been successfully kicked.`)
-        .setTimestamp();
+    const confirm = new ButtonBuilder()
+      .setCustomId("confirmkick")
+      .setLabel("Confirm Kick")
+      .setStyle(ButtonStyle.Danger);
 
-      await interaction.reply({ embeds: [replyEmbed] });
-    } catch (error) {
-      console.error("Error kicking user:", error);
-      await interaction.reply("An error occurred while kicking the user.");
+    const cancel = new ButtonBuilder()
+      .setCustomId("cancelkick")
+      .setLabel("Cancel Kick")
+      .setStyle(ButtonStyle.Success);
+
+    const row = new ActionRowBuilder().addComponents(confirm, cancel);
+    const response = await interaction.reply({
+      content: `Are you sure you want to **kick** ${user}?`,
+      components: [row],
+    });
+
+    try {
+      const collector = response.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        time: 3_600_000,
+      });
+
+      collector.on("collect", async (i) => {
+        if (i.user.id !== interaction.user.id) {
+          interaction.followUp({
+            content: "Only the command user can use these buttons.",
+            ephemeral: true,
+          });
+          return;
+        }
+        await i.reply("Please wait...");
+
+        if (i.customId === "confirmkick") {
+          await interaction.guild.members.kick(user);
+          const replyEmbed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle(`Successfully kicked ${user.username}`)
+            .setDescription(`**${user.tag}** has been successfully kicked.`)
+            .setTimestamp();
+
+          await i.editReply({
+            content: "",
+            embeds: [replyEmbed],
+            components: [],
+          });
+          collector.stop();
+        } else if (i.customId === "cancelkick") {
+          await i.editReply({
+            content: "You cancelled the kick.",
+            components: [],
+          });
+          collector.stop();
+        }
+      });
+    } catch (e) {
+      await interaction.editReply({
+        content: "Confirmation not received within 1 minute, cancelling",
+        components: [],
+      });
+      console.log(e);
     }
   },
 };
