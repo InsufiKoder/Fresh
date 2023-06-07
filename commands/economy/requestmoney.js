@@ -68,12 +68,12 @@ module.exports = {
     }
 
     const accept = new ButtonBuilder()
-      .setCustomId("accept")
+      .setCustomId("acceptrequest")
       .setLabel("Accept Request")
       .setStyle(ButtonStyle.Success);
 
     const decline = new ButtonBuilder()
-      .setCustomId("decline")
+      .setCustomId("declinerequest")
       .setLabel("Decline request")
       .setStyle(ButtonStyle.Danger);
 
@@ -99,7 +99,7 @@ module.exports = {
         }
         await i.reply("Please wait...");
 
-        if (i.customId === "accept") {
+        if (i.customId === "acceptrequest") {
           if (database[targetUser.id].walletBalance < amount) {
             await i.editReply("You don't have enough money to send.");
             return;
@@ -121,7 +121,7 @@ module.exports = {
             components: [],
           });
           collector.stop();
-        } else if (i.customId === "decline") {
+        } else if (i.customId === "declinerequest") {
           const replyEmbed = new EmbedBuilder()
             .setColor("Random")
             .setTitle("Request Declined")
