@@ -11,7 +11,7 @@ module.exports = {
         .setDescription("User to get the avatar of")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const targetUser = interaction.options.getUser("user");
 
