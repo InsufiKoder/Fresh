@@ -11,7 +11,7 @@ module.exports = {
       {
         name: "Multiplier 1.5x",
         description:
-          "Multiply your earnings by 1.5 from work, daily, slotmachine, and coinflip commands.",
+          "Multiply your earnings by 1.5 from work, daily, slotmachine, coinflip and fishing commands.",
         price: 35000,
       },
       {
