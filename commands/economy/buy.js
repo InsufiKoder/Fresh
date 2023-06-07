@@ -10,10 +10,16 @@ module.exports = {
         .setName("item")
         .setDescription("Item to purchase")
         .setRequired(true)
-        .addChoices({
-          name: "Multiplier 1.5x",
-          value: "multiplier15",
-        })
+        .addChoices(
+          {
+            name: "Multiplier 1.5x",
+            value: "multiplier15",
+          },
+          {
+            name: "Fishing Rod",
+            value: "fishingrod",
+          }
+        )
     ),
   global: true,
   async execute(interaction) {
@@ -43,10 +49,15 @@ module.exports = {
     // Check if the item exists and if the user has enough coins to purchase it
     let price;
     let multiplierItem = false;
+    let fishingRodItem = false;
     switch (item) {
       case "multiplier15":
         price = 35000;
         multiplierItem = true;
+        break;
+      case "fishingrod":
+        price = 5000;
+        fishingRodItem = true;
         break;
       default:
         await interaction.reply(
@@ -70,14 +81,22 @@ module.exports = {
       user.multiplierItem = true;
     }
 
+    // Set the fishingRodItem property to true if the purchased item is the "Fishing Rod"
+    if (fishingRodItem) {
+      user.fishingRodItem = true;
+    }
+
     // Write the updated database back to the file
     fs.writeFileSync(databasePath, JSON.stringify(database));
 
-    if (item == "multiplier15") {
+    if (item === "multiplier15") {
       await interaction.reply(
-        `You have successfully purchased the Multiplier 1.5x.`
+        "You have successfully purchased the Multiplier 1.5x."
       );
-      return;
+    } else if (item === "fishingrod") {
+      await interaction.reply(
+        "You have successfully purchased the Fishing Rod."
+      );
     }
   },
 };
