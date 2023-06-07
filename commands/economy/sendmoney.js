@@ -1,5 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder } = require("discord.js");
+const {
+  EmbedBuilder,
+  PermissionsBitField,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+} = require("discord.js");
 const fs = require("fs");
 
 module.exports = {
@@ -43,38 +50,86 @@ module.exports = {
       return;
     }
 
+    // Check if targetUser exists in the database
+    if (!database[targetUser.id]) {
+      await interaction.reply(
+        "The specified user is not registered in the database."
+      );
+      return;
+    }
+    // Check if sender exists in the database
+    if (!database[interaction.user.id]) {
+      await interaction.reply("You are not registered in the database.");
+      return;
+    }
+
+    const confirm = new ButtonBuilder()
+      .setCustomId("confirmsend")
+      .setLabel("Confirm Sending Money")
+      .setStyle(ButtonStyle.Success);
+
+    const cancel = new ButtonBuilder()
+      .setCustomId("cancelsend")
+      .setLabel("Cancel Sending Money")
+      .setStyle(ButtonStyle.Danger);
+
+    const row = new ActionRowBuilder().addComponents(confirm, cancel);
+    const response = await interaction.reply({
+      content: `Are you sure you want to send **${amount}** coins to ${targetUser}?`,
+      components: [row],
+    });
+
     try {
-      // Check if targetUser exists in the database
-      if (!database[targetUser.id]) {
-        await interaction.reply(
-          "The specified user is not registered in the database."
-        );
-        return;
-      }
-      // Check if sender exists in the database
-      if (!database[interaction.user.id]) {
-        await interaction.reply("You are not registered in the database.");
-        return;
-      }
+      const collector = response.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        time: 3_600_000,
+      });
 
-      database[interaction.user.id].walletBalance -= amount;
-      database[targetUser.id].walletBalance += amount;
+      collector.on("collect", async (i) => {
+        if (i.user.id !== interaction.user.id) {
+          interaction.followUp({
+            content: "Only the command user can use these buttons.",
+            ephemeral: true,
+          });
+          return;
+        }
+        await i.reply("Please wait...");
 
-      // Write the updated database back to the file
-      fs.writeFileSync(databasePath, JSON.stringify(database));
+        if (i.customId === "confirmsend") {
+          database[interaction.user.id].walletBalance -= amount;
+          database[targetUser.id].walletBalance += amount;
 
-      const replyEmbed = new EmbedBuilder()
-        .setColor("Random")
-        .setTitle("Money Sent")
-        .setDescription(
-          `Sent **${amount}** coins to ${targetUser}'s wallet balance.`
-        )
-        .setTimestamp();
+          // Write the updated database back to the file
+          fs.writeFileSync(databasePath, JSON.stringify(database));
 
-      await interaction.reply({ embeds: [replyEmbed] });
-    } catch (error) {
-      console.log("Error sending money:", error);
-      await interaction.reply("An error occurred while sending money.");
+          const replyEmbed = new EmbedBuilder()
+            .setColor("Random")
+            .setTitle("Money Sent")
+            .setDescription(
+              `Sent **${amount}** coins to ${targetUser}'s wallet balance.`
+            )
+            .setTimestamp();
+
+          await i.editReply({
+            content: "",
+            embeds: [replyEmbed],
+            components: [],
+          });
+          collector.stop();
+        } else if (i.customId === "cancelsend") {
+          await i.editReply({
+            content: "You cancelled the money transfer.",
+            components: [],
+          });
+          collector.stop();
+        }
+      });
+    } catch (e) {
+      await interaction.editReply({
+        content: "Confirmation not received within 1 minute, cancelling",
+        components: [],
+      });
+      console.log(e);
     }
   },
 };
