@@ -5,7 +5,7 @@ module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName("Avatar")
     .setType(ApplicationCommandType.User), // User
-  global: false,
+  global: true,
   async execute(interaction) {
     const avatar = interaction.targetUser.displayAvatarURL();
 
