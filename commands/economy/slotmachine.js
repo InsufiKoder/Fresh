@@ -52,8 +52,11 @@ module.exports = {
         return;
       }
 
+      const user = database[interaction.user.id];
+      const multiplierItem = user.multiplierItem || false;
+
       // Deduct the bet amount from the user's wallet balance
-      database[interaction.user.id].walletBalance -= betAmount;
+      user.walletBalance -= betAmount;
 
       // Generate three random symbols
       const results = [];
@@ -66,56 +69,52 @@ module.exports = {
       // Check if all symbols are the same
       const isWin = results[0] === results[1] && results[1] === results[2];
 
+      let winAmount;
       if (isWin) {
         // Triple the bet amount and add it to the user's wallet balance
-        const winAmount = betAmount * 3;
-        database[interaction.user.id].walletBalance += winAmount;
-
-        const replyEmbed = new EmbedBuilder()
-          .setColor("Random")
-          .setTitle("Slot Machine")
-          .setDescription(
-            `**${results.join(
-              " "
-            )}**\n\nCongratulations! You won ${winAmount} coins.`
-          )
-          .setTimestamp();
-
-        await interaction.reply({ embeds: [replyEmbed] });
+        winAmount = betAmount * 3;
       } else if (
         results[0] === results[1] ||
         results[0] === results[2] ||
         results[1] === results[2]
       ) {
         // Two symbols match, win 1.5 times the bet amount
-        const winAmount = betAmount * 1.5;
-        database[interaction.user.id].walletBalance += winAmount;
-
-        const replyEmbed = new EmbedBuilder()
-          .setColor("Random")
-          .setTitle("Slot Machine")
-          .setDescription(
-            `**${results.join(
-              " "
-            )}**\n\nYou got 2 symbols matched! You won ${winAmount} coins.`
-          )
-          .setTimestamp();
-
-        await interaction.reply({ embeds: [replyEmbed] });
+        winAmount = betAmount * 1.5;
       } else {
-        const replyEmbed = new EmbedBuilder()
-          .setColor("Random")
-          .setTitle("Slot Machine")
-          .setDescription(
-            `**${results.join(" ")}**\n\nYou didn't win this time.`
-          )
-          .setTimestamp();
-
-        await interaction.reply({ embeds: [replyEmbed] });
+        winAmount = 0;
       }
+
+      if (multiplierItem) {
+        winAmount *= 1.5; // Multiply the win amount by 1.5x
+      }
+
+      user.walletBalance += winAmount;
 
       // Write the updated database back to the file
       fs.writeFileSync(databasePath, JSON.stringify(database));
+
+      let description;
+      if (winAmount > 0) {
+        if (!multiplierItem) {
+          description = `**${results.join(
+            " "
+          )}**\n\nCongratulations! You won ${winAmount} coins.`;
+        } else if (multiplierItem) {
+          description = `**${results.join(
+            " "
+          )}**\n\nCongratulations! You won ${winAmount} coins. \n You made 1.5x extra coins with the 1.5x Multiplier!`;
+        }
+      } else {
+        description = `**${results.join(" ")}**\n\nYou didn't win this time.`;
+      }
+
+      const replyEmbed = new EmbedBuilder()
+        .setColor("Random")
+        .setTitle("Slot Machine")
+        .setDescription(description)
+        .setTimestamp();
+
+      await interaction.reply({ embeds: [replyEmbed] });
     } catch (error) {
       console.log("An error occurred in slot machine:", error);
       await interaction.reply(
