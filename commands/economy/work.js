@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { EmbedBuilder } = require("discord.js");
 const fs = require("fs");
+
 // Cooldown set
 const recentlyUsed = new Set();
 
@@ -16,7 +17,7 @@ module.exports = {
       );
       return;
     } else {
-      const earnedAmount = Math.floor(Math.random() * (500 - 50 + 1) + 50);
+      let earnedAmount = Math.floor(Math.random() * (500 - 50 + 1) + 50);
 
       const databasePath = "database.json";
       let database = {};
@@ -41,20 +42,34 @@ module.exports = {
           );
           return;
         }
-        // Add the earned amount of money to the user's wallet balance
-        database[interaction.user.id].walletBalance += earnedAmount;
 
+        // Check if the user has the multiplierItem
+        const user = database[interaction.user.id];
+        const multiplierItem = user.multiplierItem || false;
+        if (multiplierItem) {
+          earnedAmount *= 1.5; // Multiply the earned amount by 1.5x
+        }
+
+        // Add the earned amount of money to the user's wallet balance
+        user.walletBalance += earnedAmount;
+
+        let description;
+        if (!multiplierItem) {
+          description = `You gained **${earnedAmount}** coins.`;
+        } else if (multiplierItem) {
+          description = `You gained **${earnedAmount}** coins. \n You made 1.5x extra coins with the 1.5x Multiplier!`;
+        }
         const replyEmbed = new EmbedBuilder()
           .setColor("Random")
           .setTitle("You worked your ass off")
-          .setDescription(`You gained **${earnedAmount}** coins.`)
+          .setDescription(description)
           .setTimestamp();
         await interaction.reply({ embeds: [replyEmbed] });
 
         // Write the updated database back to the file
         fs.writeFileSync(databasePath, JSON.stringify(database));
       } catch (error) {
-        console.log("An error occured in work.js:", error);
+        console.log("An error occurred in work.js:", error);
         await interaction.reply("An error occurred while working.");
       }
 
