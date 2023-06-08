@@ -44,6 +44,7 @@ module.exports = {
     const response = await interaction.reply({
       content: `Are you sure you want to **kick** ${user}?`,
       components: [row],
+      ephemeral: true,
     });
 
     try {

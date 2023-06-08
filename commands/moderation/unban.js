@@ -56,6 +56,7 @@ module.exports = {
     const response = await interaction.reply({
       content: `Are you sure you want to **unban** the user with  the id **${userId}**?`,
       components: [row],
+      ephemeral: true,
     });
 
     try {

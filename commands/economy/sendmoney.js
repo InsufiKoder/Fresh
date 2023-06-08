@@ -77,6 +77,7 @@ module.exports = {
     const response = await interaction.reply({
       content: `Are you sure you want to send **${amount}** coins to ${targetUser}?`,
       components: [row],
+      ephemeral: true,
     });
 
     try {
