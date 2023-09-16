@@ -24,7 +24,7 @@ module.exports = {
         .setDescription("Amount to convert")
         .setRequired(true)
     ),
-  global: false,
+  global: true,
   async execute(interaction) {
     const ccfrom = interaction.options.getString("from");
     const ccto = interaction.options.getString("to");
