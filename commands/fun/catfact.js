@@ -6,7 +6,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("catfact")
     .setDescription("Get a random cat fact"),
-  global: false,
+  global: true,
   async execute(interaction) {
     try {
       const response = await axios.get("https://catfact.ninja/fact");
